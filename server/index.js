@@ -23,6 +23,8 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
+const port = process.env.PORT || 8000;
+
 server.start().then(() => {
   app.use(
     "/graphql",
@@ -33,9 +35,11 @@ server.start().then(() => {
     })
   );
 
-  httpServer.listen({ port: process.env.PORT || 8000 }, () => {
-    console.log(
-      `🚀 Server ready at http://localhost:${process.env.PORT}/graphql`
-    );
-  });
+  // httpServer.listen(port, () => {
+  //   console.log(
+  //     `🚀 Server ready at http://localhost:${process.env.PORT}/graphql`
+  //   );
+  // });
 });
+
+app.listen(port, console.log(`server runnng on port ${port}`));
