@@ -1,2 +1,2 @@
-import index from "../index";
+import index from "../index.mjs";
 export default index;
