@@ -1,14 +1,15 @@
-import dotenv from "dotenv";
-dotenv.config();
-import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from "@apollo/server/express4";
-import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import express from "express";
-import http from "http";
-import cors from "cors";
-import mongooseConnection from "./config/databaseConnection.js";
-import typeDefs from "./schema/mergeType.js";
-import resolvers from "./schema/mergeResolver.js";
+require("dotenv").config();
+const { ApolloServer } = require("@apollo/server");
+const { expressMiddleware } = require("@apollo/server/express4");
+const {
+  ApolloServerPluginDrainHttpServer,
+} = require("@apollo/server/plugin/drainHttpServer");
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const mongooseConnection = require("./config/databaseConnection");
+const typeDefs = require("./schema/mergeType");
+const resolvers = require("./schema/mergeResolver");
 
 const app = express();
 
@@ -22,17 +23,17 @@ const server = new ApolloServer({
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
 
-await server.start();
+server.start().then(() => {
+  app.use(
+    "/graphql",
+    cors(),
+    express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => ({ token: req.headers.token }),
+    })
+  );
 
-app.use(
-  "/graphql",
-  cors(),
-  express.json(),
-  expressMiddleware(server, {
-    context: async ({ req }) => ({ token: req.headers.token }),
-  })
-);
-
-await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
-
-console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+  httpServer.listen({ port: 4000 }, () => {
+    console.log(`🚀 Server ready at http://localhost:4000/graphql`);
+  });
+});

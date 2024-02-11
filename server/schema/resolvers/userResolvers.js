@@ -1,4 +1,4 @@
-import User from "../../models/user.js";
+const User = require("../../models/user");
 
 const userResolver = {
   Query: {
@@ -36,4 +36,4 @@ const userResolver = {
   },
 };
 
-export default userResolver;
+module.exports = userResolver;
