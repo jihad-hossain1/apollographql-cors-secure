@@ -5,7 +5,7 @@
   "main": "index.js",
   "vercel-build": "echo hello",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon server.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
