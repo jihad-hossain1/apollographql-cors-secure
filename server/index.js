@@ -27,7 +27,7 @@ const port = process.env.PORT || 8000;
 
 server.start().then(() => {
   app.use(
-    "/graphql",
+    "/api/v1/graphql",
     cors(),
     express.json(),
     expressMiddleware(server, {
