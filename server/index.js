@@ -35,9 +35,9 @@ server.start().then(() => {
     })
   );
 
-  app.use("/", (req, res) => {
-    res.json({ message: "welcome our apollo graphql home" });
-  });
+  // app.use("/",(req, res) => {
+  //   res.json("welcome our apollo graphql home");
+  // });
 
   httpServer.listen(port, () => {
     console.log(
